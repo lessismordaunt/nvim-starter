@@ -31,14 +31,14 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right split' })
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'https://github.com/folke/lazy.nvim.git',
-		'--branch=stable',
-		lazypath,
-	})
+    vim.fn.system({
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -60,30 +60,41 @@ require('lazy').setup({
         end,
     },
 
-	{
-		'folke/tokyonight.nvim',
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme 'tokyonight'
-		end,
-	},
+    -- Fuzzy finder
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        keys = {
+            { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
+            { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
+            { '<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Buffers' },
+        },
+    },
 
-	{
-		'nvim-neo-tree/neo-tree.nvim',
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-			'nvim-tree/nvim-web-devicons',
-			'MunifTanjim/nui.nvim',
-		},
-		keys = {
-			{ '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Toggle Explorer' },
-		},
-	},
+    {
+        'folke/tokyonight.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.cmd.colorscheme 'tokyonight'
+        end,
+    },
 
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		config = true,
-	},
+    {
+        'nvim-neo-tree/neo-tree.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-tree/nvim-web-devicons',
+            'MunifTanjim/nui.nvim',
+        },
+        keys = {
+            { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Toggle Explorer' },
+        },
+    },
+
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = true,
+    },
 })
